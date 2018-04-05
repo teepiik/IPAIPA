@@ -1,54 +1,36 @@
+const http = require('http')
 const express = require('express')
 const app = express()
-const cors = require('cors')
 const bodyParser = require('body-parser')
+const cors = require('cors')
+const mongoose = require('mongoose')
+const beerRouter = require('./controllers/beerController')
+const config = require('./utils/config')
+
+
+mongoose
+  .connect(config.mongoUrl)
+  .then( () => {
+    console.log('connected to database', config.mongoUrl)
+  })
+  .catch( err => {
+    console.log(err)
+  })
+
 
 app.use(cors())
 app.use(bodyParser.json())
-app.use(express.static('build'))
+app.use('/api/beers', beerRouter)
 
-let beers = [
-    {
-        id: 1,
-        name: 'Koff',
-        type: 'Lager'
-
-    },
-    {
-        id: 2,
-        name: 'Paulaner',
-        type: 'Wheat beer'
-
-    }
-]
-
-app.get('/', (req, res) => {
-    res.send('<h1>Welcome to IPAIPA</h1><p>Hi Denise!</p>')
+const server = http.createServer(app)
+server.listen(config.port, () => {
+  console.log(`Server running on port ${config.port}`)
 })
 
-app.get('/api/beers', (req, res) => {
-    res.json(beers)
+server.on('close', () => {
+  mongoose.connection.close()
 })
 
-app.get('/api/beers/:id', (request, response) => {
-    const id = Number(request.params.id)
-    const beer = beers.find(beer => beer.id === id)
-    if (beer) {
-        response.json(beer)
-    } else {
-        response.status(404).end()
-    }
-
-})
-
-// middleware for errors
-const error = (request, response) => {
-    response.status(404).send({ error: 'unknown endpoint' })
+module.exports = {
+  app, server
 }
-
-app.use(error)
-
-const PORT = process.env.PORT || 3001
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
-})
