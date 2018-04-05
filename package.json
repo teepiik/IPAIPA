@@ -18,10 +18,11 @@
   },
   "homepage": "https://github.com/teepiik/IPAIPA#readme",
   "dependencies": {
+    "axios": "^0.18.0",
     "cors": "^2.8.4",
+    "dotenv": "^4.0.0",
     "express": "^4.16.3",
-    "mongoose": "^5.0.13",
-    "dotenv": "^4.0.0"
+    "mongoose": "^5.0.13"
   },
   "devDependencies": {
     "nodemon": "^1.17.2"
