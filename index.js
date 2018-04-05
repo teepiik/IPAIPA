@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 
 app.use(cors())
 app.use(bodyParser.json())
+app.use(express.static('build'))
 
 let beers = [
     {
@@ -25,11 +26,11 @@ app.get('/', (req, res) => {
     res.send('<h1>Welcome to IPAIPA</h1><p>Hi Denise!</p>')
 })
 
-app.get('/beers', (req, res) => {
+app.get('/api/beers', (req, res) => {
     res.json(beers)
 })
 
-app.get('/beers/:id', (request, response) => {
+app.get('/api/beers/:id', (request, response) => {
     const id = Number(request.params.id)
     const beer = beers.find(beer => beer.id === id)
     if (beer) {
