@@ -1,5 +1,10 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
+const bodyParser = require('body-parser')
+
+app.use(cors())
+app.use(bodyParser.json())
 
 let beers = [
     {
@@ -35,7 +40,7 @@ app.get('/beers/:id', (request, response) => {
 
 })
 
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
+  console.log(`Server running on port ${PORT}`)
 })
