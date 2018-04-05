@@ -22,7 +22,7 @@ let beers = [
 ]
 
 app.get('/', (req, res) => {
-    res.send('Welcome to IPAIPA</h1>')
+    res.send('<h1>Welcome to IPAIPA</h1><p>Hi Denise!</p>')
 })
 
 app.get('/beers', (req, res) => {
