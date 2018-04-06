@@ -10,7 +10,7 @@ const beerSchema = new mongoose.Schema({
     alcohol_percent: String
 })
 
-beerSchema.static.format = (beer) => {
+beerSchema.statics.format = (beer) => {
     return {
         id: beer.id,
         name: beer.name,
