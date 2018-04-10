@@ -5,7 +5,7 @@ const axios = require('axios')
 beerRouter.get('/', async (request, response) => {
     try {
         const beers = await Beer.find({})
-        return beers
+        response.status(200).json(beers.map(Beer.format))
 
     } catch (error) {
         console.log(error)
