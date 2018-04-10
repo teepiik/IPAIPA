@@ -14,6 +14,7 @@ beerSchema.statics.format = (beer) => {
     return {
         id: beer.id,
         name: beer.name,
+        type: beer.type,
         brewery: beer.brewery,
         country: beer.country,
         alcohol_percent: beer.alcohol_percent
