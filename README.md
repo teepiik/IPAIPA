@@ -13,7 +13,8 @@ https://ipaipa.herokuapp.com/
 
 ### Technology
 
-Frontend is programmed with ReactJS and backend with Node.js.
+Frontend is programmed with ReactJS (+React-Bootstrap) and backend with Node.js. Database uses Mongoose. Production is in Heroku server
+and database in MLab.
 
 ### License
 Copyright 2018 teepiik
