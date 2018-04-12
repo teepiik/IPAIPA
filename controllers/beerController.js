@@ -15,6 +15,21 @@ beerRouter.get('/', async (request, response) => {
     }
 })
 
+beerRouter.get('/:id', async (request, response) => {
+    try {
+        const beer = await Beer.findById(request.params.id)
+        if (beer) {
+            response.status(200).json(Beer.format(beer))
+        } else {
+            response.status(404).end()
+        }
+
+    } catch (error) {
+        console.log(error)
+        response.status(500).json({ error: 'internal error' })
+    }
+})
+
 beerRouter.post('/', async (request, response) => {
     const body = request.body
 
