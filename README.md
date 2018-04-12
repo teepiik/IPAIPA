@@ -3,9 +3,9 @@ IPAIPA is a school work project, my submission to Fullstack Developement laborat
 
 This repository contains backend and documentation for the IPAIPA beer and drinks application. Code for frontend is located in another repository.
 
-https://ipaipa.herokuapp.com/
+### [Link to production (the application)](https://ipaipa.herokuapp.com/)
 
-### [Link to application](https://ipaipa.herokuapp.com/)
+### [Frontend repository](https://github.com/teepiik/IPAIPA-frontend)
 
 ### [Hour counting](https://docs.google.com/spreadsheets/d/1N_-diIFscFaFSQr2Wusd9jy6xcLmSNMgnguItnuv7Ks/edit?usp=sharing)
 
