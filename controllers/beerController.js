@@ -2,6 +2,8 @@ const beerRouter = require('express').Router()
 const Beer = require('../models/beer')
 const axios = require('axios')
 
+// implement user and login check
+
 beerRouter.get('/', async (request, response) => {
     try {
         const beers = await Beer.find({})
@@ -9,15 +11,16 @@ beerRouter.get('/', async (request, response) => {
 
     } catch (error) {
         console.log(error)
-        response.status(500).send({ error: 'internal error'})
+        response.status(500).json({ error: 'internal error' })
     }
 })
 
 beerRouter.post('/', async (request, response) => {
+    const body = request.body
+
     try {
-        const body = request.body
-        if(body === undefined) {
-            return response.status(400).json({ error: 'content missing'})
+        if (body === undefined) {
+            return response.status(400).json({ error: 'content missing' })
         }
 
         const beer = new Beer({
@@ -29,11 +32,43 @@ beerRouter.post('/', async (request, response) => {
         })
 
         savedBeer = await beer.save()
-        response.status(200).send(Beer.format(savedBeer))
+        response.status(200).json(Beer.format(savedBeer))
 
     } catch (error) {
         console.log(error)
-        response.status(500).send({ error: 'internal error'})
+        response.status(500).json({ error: 'internal error' })
+    }
+})
+
+beerRouter.delete('/:id', async (request, response) => {
+    try {
+        const beerToDelete = await Beer.findByIdAndRemove(request.params.id)
+        response.status(204).end()
+
+    } catch (error) {
+        console.log(error)
+        response.status(400).json({ error: 'something went wrong' })
+    }
+})
+
+beerRouter.put('/:id', async (request, response) => {
+    const body = request.body
+
+    try {
+        const beerToUpdate = {
+            name: body.name,
+            brewery: body.brewery,
+            type: body.type,
+            country: body.country,
+            alcohol_percent: body.alcohol_percent
+        }
+
+        const updatedBeer = await Beer.findByIdAndUpdate(request.params.id, beerToUpdate, { new: true })
+        response.status(200).json(Beer.format(updatedBeer))
+
+    } catch (error) {
+        console.log(error)
+        response.status(400).json({ error: 'something went wrong' })
     }
 })
 
