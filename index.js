@@ -31,9 +31,8 @@ server.on('close', () => {
 
 app.use(cors())
 app.use(bodyParser.json())
-app.use('/api/beers', beerRouter)
-
 app.use(express.static('build'))
+app.use('/api/beers', beerRouter)
 
 const error = (request, response) => {
     response.status(404).send({ error: 'unknown endpoint' })
