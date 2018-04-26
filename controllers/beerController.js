@@ -18,8 +18,10 @@ beerRouter.get('/', async (request, response) => {
 beerRouter.get('/:id', async (request, response) => {
     try {
         const beer = await Beer.findById(request.params.id)
-        if (beer) {
-            response.status(200).json(Beer.format)
+        console.log('back beer')
+        console.log(beer)
+        if (beer !== null || beer !== undefined) {
+            response.status(200).json(Beer.format(beer))
         } else {
             response.status(404).end()
         }
