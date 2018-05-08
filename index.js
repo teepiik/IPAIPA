@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const beerRouter = require('./controllers/beerController')
+const usersRouter = require('./controllers/userController')
 const config = require('./utils/config')
 
 require('dotenv').config()
@@ -33,6 +34,7 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use(express.static('build'))
 app.use('/api/beers', beerRouter)
+app.use('/api/users', usersRouter)
 
 const error = (request, response) => {
     response.status(404).send({ error: 'unknown endpoint' })
