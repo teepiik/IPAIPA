@@ -1,4 +1,5 @@
 const Beer = require('../models/beer')
+const User = require('../models/user')
 
 const initialBeers = [
     {
@@ -32,4 +33,14 @@ const beersInDatabase = async () => {
     return beers
 }
 
-module.exports = { initialBeers, beersInDatabase }
+const usersInDatabase = async () => {
+    const users = await User.find({})
+    return users
+}
+
+const userWithIdFromDatabase = async (id) => {
+    const user = await User.findById(id)
+    return user
+}
+
+module.exports = { initialBeers, beersInDatabase, usersInDatabase, userWithIdFromDatabase }
