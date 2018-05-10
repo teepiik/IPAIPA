@@ -18,8 +18,7 @@ beerRouter.get('/', async (request, response) => {
 beerRouter.get('/:id', async (request, response) => {
     try {
         const beer = await Beer.findById(request.params.id)
-        console.log('back beer')
-        console.log(beer)
+
         if (beer !== null || beer !== undefined) {
             response.status(200).json(Beer.format(beer))
         } else {
@@ -49,7 +48,7 @@ beerRouter.post('/', async (request, response) => {
         })
 
         savedBeer = await beer.save()
-        response.status(200).json(Beer.format(savedBeer))
+        response.status(201).json(Beer.format(savedBeer))
 
     } catch (error) {
         console.log(error)
