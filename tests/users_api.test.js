@@ -18,12 +18,13 @@ beforeAll(async () => {
         passwordHash: "321"
     })
 
+    // Since this saves straight to db, passwords are not hashed in db
     await newUser.save()
     await newUser2.save()
 })
 
-describe('API GET get user from api/users', async () => {
-    test(' get api/users: users are returned and formatted correctly', async () => {
+describe('API GET get user from', async () => {
+    test(' api/users: users are returned and formatted correctly', async () => {
         usersInDB = await usersInDatabase()
 
         const response = await api
@@ -32,12 +33,12 @@ describe('API GET get user from api/users', async () => {
             .expect('Content-Type', /application\/json/)
 
         expect(response.body.length).toBe(usersInDB.length)
-    })
 
-    /*
-    usersInDB.forEach(user => {
-        expect(user.passwordHash).toBe(undefined)
-    });*/
+        // no password in response
+        response.body.forEach(user => {
+            expect(user.passwordHash).toBe(undefined)
+        });
+    })
 })
 
 afterAll(() => {
