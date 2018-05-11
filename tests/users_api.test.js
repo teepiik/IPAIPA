@@ -9,7 +9,7 @@ beforeAll(async () => {
 
     const newUser = new User({
         username: "Jugga8888",
-        password: "123"
+        passwordHash: "123"
     })
 
     await newUser.save()
