@@ -31,7 +31,7 @@ describe('API GET get user from api/users', async () => {
             .expect(200)
             .expect('Content-Type', /application\/json/)
 
-        expect(response.body.length).toBe(usersInTestDB.length)
+        expect(response.body.length).toBe(usersInDB.length)
     })
 
     /*
