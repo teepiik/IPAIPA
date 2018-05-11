@@ -1,9 +1,18 @@
 const bcrypt = require('bcrypt')
 const usersRouter = require('express').Router()
 const User = require('../models/user')
+const config = require('./utils/config')
 
+require('dotenv').config()
+
+// adding users is designed to be handled by admin, no purpose build UI needed.
+// 
 usersRouter.post('/', async (request, response) => {
-    // add activation code
+
+    if (request.body.activation !== config.activationCode) {
+        return response.status(400).json({ error: 'you need activation code to register new user' })
+    }
+
     try {
         const body = request.body
         const saltRounds = 10
