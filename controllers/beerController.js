@@ -17,6 +17,7 @@ const getToken = (request) => {
 beerRouter.get('/', async (request, response) => {
     try {
         const beers = await Beer.find({})
+        .populate('users')
         response.status(200).json(beers.map(Beer.format))
 
     } catch (error) {
@@ -28,6 +29,7 @@ beerRouter.get('/', async (request, response) => {
 beerRouter.get('/:id', async (request, response) => {
     try {
         const beer = await Beer.findById(request.params.id)
+        .populate('users')
 
         if (beer !== null || beer !== undefined) {
             response.status(200).json(Beer.format(beer))
@@ -64,7 +66,7 @@ beerRouter.post('/', async (request, response) => {
             type: body.type,
             country: body.country,
             alcohol_percent: body.alcohol_percent,
-            userWhoAdded: user
+            userWhoAdded: user // vai pelkkä id?
         })
 
         savedBeer = await beer.save()

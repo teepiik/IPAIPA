@@ -35,6 +35,7 @@ usersRouter.post('/', async (request, response) => {
 usersRouter.get('/', async (request, response) => {
     try {
         const users = await User.find({})
+        .populate('beers')
         response.status(200).json(users.map(User.format))
 
     } catch (error) {
