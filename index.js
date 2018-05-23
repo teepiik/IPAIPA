@@ -38,6 +38,12 @@ app.use('/api/beers', beerRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
 
+// for dev uses only, temporary
+const testUser = {
+    username: 'test',
+    password: 'test1'
+}
+
 const error = (request, response) => {
     response.status(404).send({ error: 'unknown endpoint' })
 }

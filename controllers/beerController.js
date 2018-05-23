@@ -48,7 +48,7 @@ beerRouter.post('/', async (request, response) => {
 
     try {
         const token = getToken(request)
-        const decodedToken = jwt.verify(token, process.env.SEC)
+        const decodedToken = jwt.verify(token, process.env.SECRET)
 
         if (!token || !decodedToken.id) {
             return response.status(401).json({ error: 'token missing or invalid' })
@@ -81,7 +81,7 @@ beerRouter.post('/', async (request, response) => {
 beerRouter.delete('/:id', async (request, response) => {
     try {
         const token = getToken(request)
-        const decodedToken = jwt.verify(token, process.env.SEC)
+        const decodedToken = jwt.verify(token, process.env.SECRET)
 
         if (!token || !decodedToken.id) {
             return response.status(401).json({ error: 'token missing or invalid' })
@@ -106,7 +106,7 @@ beerRouter.put('/:id', async (request, response) => {
 
     try {
         const token = getToken(request)
-        const decodedToken = jwt.verify(token, process.env.SEC)
+        const decodedToken = jwt.verify(token, process.env.SECRET)
 
         if (!token || !decodedToken.id) {
             return response.status(401).json({ error: 'token missing or invalid' })
