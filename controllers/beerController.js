@@ -17,7 +17,7 @@ const getToken = (request) => {
 beerRouter.get('/', async (request, response) => {
     try {
         const beers = await Beer.find({})
-        .populate('users')
+            .populate('users')
         response.status(200).json(beers.map(Beer.format))
 
     } catch (error) {
@@ -29,7 +29,7 @@ beerRouter.get('/', async (request, response) => {
 beerRouter.get('/:id', async (request, response) => {
     try {
         const beer = await Beer.findById(request.params.id)
-        .populate('users')
+            .populate('users')
 
         if (beer !== null || beer !== undefined) {
             response.status(200).json(Beer.format(beer))
@@ -66,15 +66,22 @@ beerRouter.post('/', async (request, response) => {
             type: body.type,
             country: body.country,
             alcohol_percent: body.alcohol_percent,
-            userWhoAdded: user // vai pelkkä id?
+            userWhoAdded: user._id // id viite
         })
 
-        savedBeer = await beer.save()
+        const savedBeer = await beer.save()
+        user.beersAdded = user.beersAdded.concat(savedBeer._id)
+        await user.save()
+
         response.status(201).json(Beer.format(savedBeer))
 
     } catch (error) {
-        console.log(error)
-        response.status(500).json({ error: 'internal error' })
+        if (error.name === 'JsonWebTokenError') {
+            response.status(401).json({ error: error.message })
+        } else {
+            console.log(error)
+            response.status(500).json({ error: 'internal error' })
+        }
     }
 })
 // implement that only adder can delete. 
@@ -87,10 +94,7 @@ beerRouter.delete('/:id', async (request, response) => {
             return response.status(401).json({ error: 'token missing or invalid' })
         }
 
-        // experimental
-        if(beerToDelete.userWhoAdded.id !== decodedToken.id) {
-            return response.status(401).json({ error: 'only the creater can delete the beer' })
-        }
+        // implement adder or admin only can delete
 
         const beerToDelete = await Beer.findByIdAndRemove(request.params.id)
         response.status(204).end()
@@ -117,7 +121,8 @@ beerRouter.put('/:id', async (request, response) => {
             brewery: body.brewery,
             type: body.type,
             country: body.country,
-            alcohol_percent: body.alcohol_percent
+            alcohol_percent: body.alcohol_percent,
+            userWhoAdded: body.userWhoAdded
         }
 
         const updatedBeer = await Beer.findByIdAndUpdate(request.params.id, beerToUpdate, { new: true })
