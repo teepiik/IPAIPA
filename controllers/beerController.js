@@ -31,7 +31,7 @@ beerRouter.get('/:id', async (request, response) => {
         const beer = await Beer.findById(request.params.id)
             .populate('users')
 
-        if (beer !== null || beer !== undefined) {
+        if (beer !== null && beer !== undefined) {
             response.status(200).json(Beer.format(beer))
         } else {
             response.status(404).end()
@@ -100,8 +100,12 @@ beerRouter.delete('/:id', async (request, response) => {
         response.status(204).end()
 
     } catch (error) {
-        console.log(error)
-        response.status(400).json({ error: 'something went wrong' })
+        if (error.name === 'JsonWebTokenError') {
+            response.status(401).json({ error: error.message })
+        } else {
+            console.log(error)
+            response.status(500).json({ error: 'internal error' })
+        }
     }
 })
 
@@ -129,8 +133,12 @@ beerRouter.put('/:id', async (request, response) => {
         response.status(200).json(Beer.format(updatedBeer))
 
     } catch (error) {
-        console.log(error)
-        response.status(400).json({ error: 'something went wrong' })
+        if (error.name === 'JsonWebTokenError') {
+            response.status(401).json({ error: error.message })
+        } else {
+            console.log(error)
+            response.status(500).json({ error: 'internal error' })
+        }
     }
 })
 
