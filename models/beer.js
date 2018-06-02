@@ -9,7 +9,7 @@ const beerSchema = new mongoose.Schema({
     country: String,
     alcohol_percent: String,
     userWhoAdded: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-    //reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }]
+    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }]
 })
 
 beerSchema.statics.format = (beer) => {
@@ -21,7 +21,7 @@ beerSchema.statics.format = (beer) => {
         country: beer.country,
         alcohol_percent: beer.alcohol_percent,
         userWhoAdded: beer.userWhoAdded,
-        //usersTasted: beer.usersTasted CHANGE TO REVIEW
+        reviews: beer.reviews
     }
 }
 

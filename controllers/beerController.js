@@ -66,7 +66,8 @@ beerRouter.post('/', async (request, response) => {
             type: body.type,
             country: body.country,
             alcohol_percent: body.alcohol_percent,
-            userWhoAdded: user._id // id viite
+            userWhoAdded: user._id, // id viite
+            reviews: user.reviews
         })
 
         const savedBeer = await beer.save()
@@ -126,7 +127,8 @@ beerRouter.put('/:id', async (request, response) => {
             type: body.type,
             country: body.country,
             alcohol_percent: body.alcohol_percent,
-            userWhoAdded: body.userWhoAdded
+            userWhoAdded: body.userWhoAdded,
+            reviews: user.reviews
         }
 
         const updatedBeer = await Beer.findByIdAndUpdate(request.params.id, beerToUpdate, { new: true })
