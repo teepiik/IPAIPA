@@ -61,7 +61,8 @@ reviewRouter.post('/', async (request, response) => {
         }
 
         const user = await User.findById(decodedToken.id)
-        // add beerId, body.beer
+        const beer = await Beer.findById(body.reviewedBeer)
+        // should be only id of beer
 
         const review = new Review({
             userWhoViewed: decodedToken.id,
@@ -76,6 +77,9 @@ reviewRouter.post('/', async (request, response) => {
         const savedReview = await review.save()
         user.reviews = user.reviews.concat(savedReview._id)
         await user.save()
+
+        beer.reviews = beer.reviews.concat(savedReview._id)
+        await beer.save()
 
         response.status(201).json(Review.format(savedReview))
 
