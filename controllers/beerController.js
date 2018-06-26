@@ -26,10 +26,12 @@ beerRouter.get('/', async (request, response) => {
     }
 })
 
+// populate replaces id references with actual objects referred by id
 beerRouter.get('/:id', async (request, response) => {
     try {
         const beer = await Beer.findById(request.params.id)
             .populate('users')
+            .populate('reviews')
 
         if (beer !== null && beer !== undefined) {
             response.status(200).json(Beer.format(beer))

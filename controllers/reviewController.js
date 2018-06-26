@@ -52,10 +52,6 @@ reviewRouter.post('/', async (request, response) => {
         const token = getToken(request)
         const decodedToken = jwt.verify(token, process.env.SECRET)
 
-        // TODO CORRECT jsonwebtokenError
-        console.log(token)
-        console.log(decodedToken.id)
-        console.log(decodedToken)
         if (!token || !decodedToken.id) {
             return response.status(401).json({ error: 'token missing or invalid' })
         }
@@ -63,9 +59,6 @@ reviewRouter.post('/', async (request, response) => {
         if (body === undefined) {
             return response.status(400).json({ error: 'content missing' })
         }
-        console.log('body and body.reviewedBeer')
-        console.log(body)
-        console.log(body.reviewedBeer)
 
         const user = await User.findById(decodedToken.id)
         const beer = await Beer.findById(body.reviewedBeer)
@@ -74,6 +67,7 @@ reviewRouter.post('/', async (request, response) => {
         const review = new Review({
             userWhoViewed: decodedToken.id,
             reviewedBeer: body.reviewedBeer,
+            usernameOfReviewer: decodedToken.username,
             overall_grade: body.overall_grade,
             after_taste: body.after_taste,
             first_bite: body.first_bite,
