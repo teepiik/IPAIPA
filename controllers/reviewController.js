@@ -52,7 +52,10 @@ reviewRouter.post('/', async (request, response) => {
         const token = getToken(request)
         const decodedToken = jwt.verify(token, process.env.SECRET)
 
-        // TODO CORRECT THIS CHECK
+        // TODO CORRECT jsonwebtokenError
+        console.log(token)
+        console.log(decodedToken.id)
+        console.log(decodedToken)
         if (!token || !decodedToken.id) {
             return response.status(401).json({ error: 'token missing or invalid' })
         }
@@ -60,7 +63,7 @@ reviewRouter.post('/', async (request, response) => {
         if (body === undefined) {
             return response.status(400).json({ error: 'content missing' })
         }
-        console.log(decodedToken.id)
+        console.log('body and body.reviewedBeer')
         console.log(body)
         console.log(body.reviewedBeer)
 
@@ -90,6 +93,7 @@ reviewRouter.post('/', async (request, response) => {
     } catch (error) {
         if (error.name === 'JsonWebTokenError') {
             response.status(401).json({ error: error.message })
+            console.log('webtokenError')
         } else {
             console.log(error)
             response.status(500).json({ error: 'internal error' })
