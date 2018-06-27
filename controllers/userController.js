@@ -61,7 +61,7 @@ usersRouter.get('/', async (request, response) => {
 
 usersRouter.get('/:id', async (request, response) => {
     try {
-        const user = await User.findById(request.body.id)
+        const user = await User.findById(request.params.id)
         response.status(200).json(User.format(user))
 
     } catch (error) {
