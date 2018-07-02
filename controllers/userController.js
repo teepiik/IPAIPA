@@ -62,6 +62,8 @@ usersRouter.get('/', async (request, response) => {
 usersRouter.get('/:id', async (request, response) => {
     try {
         const user = await User.findById(request.params.id)
+            .populate('beers')
+            .populate('reviews')
         response.status(200).json(User.format(user))
 
     } catch (error) {

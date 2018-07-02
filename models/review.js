@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const reviewSchema = new mongoose.Schema({
     userWhoViewed: { type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     reviewedBeer: { type: mongoose.Schema.Types.ObjectId, ref: 'Beer'},
+    reviewedBeerName: String,
     usernameOfReviewer: String, // for frontend convenience
     overall_grade: Number,
     after_taste: Number,
@@ -16,6 +17,7 @@ reviewSchema.statics.format = (review) => {
         id: review.id,
         userWhoViewed: review.userWhoViewed,
         reviewedBeer: review.reviewedBeer,
+        reviewedBeerName: review.reviewedBeerName,
         usernameOfReviewer: review.usernameOfReviewer,
         overall_grade: review.overall_grade,
         after_taste: review.after_taste,

@@ -67,6 +67,7 @@ reviewRouter.post('/', async (request, response) => {
         const review = new Review({
             userWhoViewed: decodedToken.id,
             reviewedBeer: body.reviewedBeer,
+            reviewedBeerName: body.reviewedBeerName,
             usernameOfReviewer: decodedToken.username,
             overall_grade: body.overall_grade,
             after_taste: body.after_taste,

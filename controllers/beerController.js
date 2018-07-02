@@ -69,7 +69,7 @@ beerRouter.post('/', async (request, response) => {
             country: body.country,
             alcohol_percent: body.alcohol_percent,
             userWhoAdded: user._id, // id viite
-            reviews: user.reviews
+            reviews: []
         })
 
         const savedBeer = await beer.save()
