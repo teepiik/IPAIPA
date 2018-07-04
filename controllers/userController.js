@@ -50,7 +50,7 @@ usersRouter.post('/', async (request, response) => {
 usersRouter.get('/', async (request, response) => {
     try {
         const users = await User.find({})
-            .populate('beers')
+           // .populate('beers') propably not needed
         response.status(200).json(users.map(User.format))
 
     } catch (error) {
@@ -64,6 +64,7 @@ usersRouter.get('/:id', async (request, response) => {
         const user = await User.findById(request.params.id)
             .populate('beers')
             .populate('reviews')
+            .populate('recommendations')
         response.status(200).json(User.format(user))
 
     } catch (error) {
@@ -89,7 +90,8 @@ usersRouter.put('/:id', async (request, response) => {
             username: body.username,
             passwordHash: passwordHash,
             beersAdded: body.beersAdded,
-            reviews: body.reviews
+            reviews: body.reviews,
+            recommendations: body.recommendations
         }
 
         const updatedUser = await User.findByIdAndUpdate(request.params.id, userToUpdate, { new: true })

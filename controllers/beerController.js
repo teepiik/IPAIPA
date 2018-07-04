@@ -4,7 +4,6 @@ const User = require('../models/user')
 const axios = require('axios')
 const jwt = require('jsonwebtoken')
 
-// implement user and login check
 
 const getToken = (request) => {
     const authorization = request.get('authorization')
@@ -17,7 +16,7 @@ const getToken = (request) => {
 beerRouter.get('/', async (request, response) => {
     try {
         const beers = await Beer.find({})
-            .populate('users')
+            .populate('users') // prob not needed?
         response.status(200).json(beers.map(Beer.format))
 
     } catch (error) {
@@ -32,6 +31,7 @@ beerRouter.get('/:id', async (request, response) => {
         const beer = await Beer.findById(request.params.id)
             .populate('users')
             .populate('reviews')
+            .populate('recommendations')
 
         if (beer !== null && beer !== undefined) {
             response.status(200).json(Beer.format(beer))
@@ -87,7 +87,7 @@ beerRouter.post('/', async (request, response) => {
         }
     }
 })
-// implement that only adder can delete. 
+
 beerRouter.delete('/:id', async (request, response) => {
     try {
         const token = getToken(request)
@@ -98,6 +98,7 @@ beerRouter.delete('/:id', async (request, response) => {
         }
 
         // implement adder or admin only can delete
+        // can be done in frontend too if convinient
 
         const beerToDelete = await Beer.findByIdAndRemove(request.params.id)
         response.status(204).end()
@@ -123,6 +124,10 @@ beerRouter.put('/:id', async (request, response) => {
             return response.status(401).json({ error: 'token missing or invalid' })
         }
 
+        if(decodedToken.id !== body.userWhoAdded) {
+            return response.status(401).json({ error: 'no permission' })
+        }
+
         const beerToUpdate = {
             name: body.name,
             brewery: body.brewery,
@@ -130,7 +135,8 @@ beerRouter.put('/:id', async (request, response) => {
             country: body.country,
             alcohol_percent: body.alcohol_percent,
             userWhoAdded: body.userWhoAdded,
-            reviews: user.reviews
+            reviews: body.reviews,
+            recommendations: body.recommendations
         }
 
         const updatedBeer = await Beer.findByIdAndUpdate(request.params.id, beerToUpdate, { new: true })

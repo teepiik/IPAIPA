@@ -8,6 +8,7 @@ const beerRouter = require('./controllers/beerController')
 const usersRouter = require('./controllers/userController')
 const loginRouter = require('./controllers/login')
 const reviewRouter = require('./controllers/reviewController')
+const recommendationRouter = require('./controllers/recommendationController')
 const config = require('./utils/config')
 
 require('dotenv').config()
@@ -39,6 +40,7 @@ app.use('/api/beers', beerRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
 app.use('/api/reviews', reviewRouter)
+app.use('/api/recommendations', recommendationRouter)
 
 // "inline middleware" for detecting errors in api
 const error = (request, response) => {
