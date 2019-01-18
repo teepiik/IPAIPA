@@ -17,7 +17,7 @@ Frontend is programmed with ReactJS (+React-Bootstrap) and backend with Node.js.
 and database in MLab.
 
 ### License
-Copyright 2018 teepiik
+Copyright 2019 teepiik MIT
 
 
 
